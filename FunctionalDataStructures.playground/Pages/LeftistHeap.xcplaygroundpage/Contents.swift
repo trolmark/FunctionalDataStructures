@@ -40,7 +40,7 @@ extension LeftistHeap {
 extension LeftistHeap {
     
     func insert(object:Element) -> LeftistHeap {
-        return self
+        return self.merge(with: LeftistHeap.makeHeap(x: object))
     }
 }
 
@@ -94,6 +94,9 @@ extension LeftistHeap {
         if list.isEmpty { self = .leaf }
         else { self = LeftistHeap.loop(over: list) }
     }
+}
+
+extension LeftistHeap {
     
     static func makeHeap(x:Element, a : LeftistHeap = .leaf, b: LeftistHeap = .leaf) -> LeftistHeap {
         if a.getRank() >= b.getRank() {
