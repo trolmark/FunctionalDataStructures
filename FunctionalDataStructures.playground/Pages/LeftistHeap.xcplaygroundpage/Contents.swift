@@ -39,13 +39,6 @@ extension LeftistHeap {
 
 extension LeftistHeap {
     
-    func insert(object:Element) -> LeftistHeap {
-        return self.merge(with: LeftistHeap.makeHeap(x: object))
-    }
-}
-
-extension LeftistHeap {
-    
     func merge(with heap:LeftistHeap) -> LeftistHeap {
         switch (self, heap) {
             
@@ -61,12 +54,7 @@ extension LeftistHeap {
             }
             
         default: return self
-            
         }
-    }
-    
-    func insert(x:Element) -> LeftistHeap {
-        return self.merge(with: .node(1, x, .leaf, .leaf))
     }
 }
 
@@ -85,6 +73,10 @@ extension LeftistHeap {
         case .node(_, _ , let left, let right) :
             return left.merge(with:right)
         }
+    }
+    
+    func insert(object:Element) -> LeftistHeap {
+        return self.merge(with: LeftistHeap.makeHeap(x: object))
     }
 }
 
@@ -127,6 +119,6 @@ extension LeftistHeap {
 }
 
 
-let heap = LeftistHeap<Int>()
+let heap = LeftistHeap<Int>.init(from: [10,3,4,6])
 
 //: [Next](@next)
