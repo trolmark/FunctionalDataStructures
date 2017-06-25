@@ -13,9 +13,6 @@ extension LeftistHeap {
     init() {
         self = .leaf
     }
-}
-
-extension LeftistHeap {
     
     func getRank() -> Int {
         switch self {
@@ -24,6 +21,7 @@ extension LeftistHeap {
         }
     }
 }
+
 
 extension LeftistHeap {
     
@@ -49,11 +47,26 @@ extension LeftistHeap {
 extension LeftistHeap {
     
     func merge(with heap:LeftistHeap) -> LeftistHeap {
-        return heap
+        switch (self, heap) {
+            
+        case (_ , .leaf): return self
+        case (.leaf, _) : return heap
+            
+        case (.node(_, let x, let a1, let b1),
+              .node(_, let y, let a2, let b2)) :
+            if x < y {
+                return LeftistHeap.makeHeap(x: x, a: a1, b: b1.merge(with: b2))
+            } else {
+                return LeftistHeap.makeHeap(x: y, a: a2, b: b2.merge(with: b1))
+            }
+            
+        default: return self
+            
+        }
     }
     
-    func makeT() -> LeftistHeap {
-        return self
+    func insert(x:Element) -> LeftistHeap {
+        return self.merge(with: .node(1, x, .leaf, .leaf))
     }
 }
 
@@ -69,8 +82,44 @@ extension LeftistHeap {
     func deleteMin() -> LeftistHeap? {
         switch self {
         case .leaf: return nil
-        case .node(_, _ , _, _ ) : return self
+        case .node(_, _ , let left, let right) :
+            return left.merge(with:right)
         }
+    }
+}
+
+extension LeftistHeap {
+    
+    init(from list:[Element]) {
+        if list.isEmpty { self = .leaf }
+        else { self = LeftistHeap.loop(over: list) }
+    }
+    
+    static func makeHeap(x:Element, a : LeftistHeap = .leaf, b: LeftistHeap = .leaf) -> LeftistHeap {
+        if a.getRank() >= b.getRank() {
+            return .node(b.getRank() + 1, x, a, b)
+        } else {
+            return .node(a.getRank() + 1, x, b, a)
+        }
+    }
+    
+    static func loop(over list:[Element]) -> LeftistHeap {
+        return
+            stride(from: 0, to: list.count, by: 2)
+            .map { index -> (Element, Element?) in
+                (list[index], index < list.count - 1 ? list[index.advanced(by: 1)] : nil)
+            }
+            .map { pair -> LeftistHeap<Element> in
+                guard let item2 = pair.1
+                else { return LeftistHeap.makeHeap(x: pair.0)}
+                
+                return LeftistHeap
+                    .makeHeap(x: pair.0)
+                    .merge(with: makeHeap(x: item2))
+            }
+            .reduce(.leaf) { (result:LeftistHeap, item:LeftistHeap) in
+                return result.merge(with: item)
+            }
     }
 }
 
