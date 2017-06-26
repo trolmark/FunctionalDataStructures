@@ -22,6 +22,26 @@ extension LeftistHeap {
     }
 }
 
+extension LeftistHeap : CustomStringConvertible {
+    
+    func diagram(_ top: String, _ root: String, _ bottom: String) -> String {
+        switch self {
+        case .leaf:
+            return root + "•\n"
+        case let .node(rank, value, .leaf, .leaf):
+            return root + "\(rank) \(value)\n"
+        case let .node(rank, value, left, right):
+            return right.diagram(top + "    ", top + "┌───", top + "│   ")
+                + root + "\(rank) \(value)\n"
+                + left.diagram(bottom + "│   ", bottom + "└───", bottom + "    ")
+        }
+    }
+    
+    public var description: String {
+        return self.diagram("", "", "")
+    }
+}
+
 
 extension LeftistHeap {
     
@@ -40,6 +60,7 @@ extension LeftistHeap {
 extension LeftistHeap {
     
     func merge(with heap:LeftistHeap) -> LeftistHeap {
+        
         switch (self, heap) {
             
         case (_ , .leaf): return self
@@ -47,10 +68,11 @@ extension LeftistHeap {
             
         case (.node(_, let x, let a1, let b1),
               .node(_, let y, let a2, let b2)) :
+
             if x < y {
-                return LeftistHeap.makeHeap(x: x, a: a1, b: b1.merge(with: b2))
+                return LeftistHeap.makeHeap(x: x, a: a1, b: b1.merge(with: heap))
             } else {
-                return LeftistHeap.makeHeap(x: y, a: a2, b: b2.merge(with: b1))
+                return LeftistHeap.makeHeap(x: y, a: a2, b: self.merge(with: b2))
             }
             
         default: return self
@@ -106,10 +128,9 @@ extension LeftistHeap {
             }
             .map { pair -> LeftistHeap<Element> in
                 guard let item2 = pair.1
-                else { return LeftistHeap.makeHeap(x: pair.0)}
+                else { return makeHeap(x: pair.0)}
                 
-                return LeftistHeap
-                    .makeHeap(x: pair.0)
+                return makeHeap(x: pair.0)
                     .merge(with: makeHeap(x: item2))
             }
             .reduce(.leaf) { (result:LeftistHeap, item:LeftistHeap) in
@@ -119,6 +140,9 @@ extension LeftistHeap {
 }
 
 
-let heap = LeftistHeap<Int>.init(from: [10,3,4,6])
+
+
+let heap = LeftistHeap<Int>.init(from: [1,3,6,10,11,13,17])
+print(heap)
 
 //: [Next](@next)
