@@ -133,16 +133,16 @@ extension LeftistHeap {
                 return makeHeap(x: pair.0)
                     .merge(with: makeHeap(x: item2))
             }
-            .reduce(.leaf) { (result:LeftistHeap, item:LeftistHeap) in
+            .reduce(.leaf, { (result:LeftistHeap, item:LeftistHeap) in
                 return result.merge(with: item)
-            }
+            })
     }
 }
 
 
 
 
-let heap = LeftistHeap<Int>.init(from: [1,3,6,10,11,13,17])
+let heap = LeftistHeap<Int>.init(from: [1,3,6,10,11,13,17, -5, 43, 2])
 print(heap)
 
 //: [Next](@next)
