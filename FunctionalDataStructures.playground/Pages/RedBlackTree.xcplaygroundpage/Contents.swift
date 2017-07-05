@@ -60,6 +60,41 @@ extension RedBlackTree {
     }
 }
 
+extension RedBlackTree {
+    
+    func insert(_ elem : Element) -> RedBlackTree {
+        let newTree = ins(elem: elem, in: self)
+        
+        switch newTree {
+        case .empty: return newTree
+        case let .node(_ , left, x, right):
+            return .node(.black,left, x,right)
+        }
+    }
+    
+    func ins(elem:Element, in tree:RedBlackTree) -> RedBlackTree {
+        switch tree {
+        case .empty: return .node(.red, .empty, elem, .empty)
+        case let .node(_, _, value, _) where value == elem:
+            return tree
+        case let .node(color, left, value , right) where elem < value :
+            return balance(color, ins(elem: elem, in: left), value, right)
+        case let .node(color, left, value , right) :
+           return balance(color, left, value, ins(elem: elem, in: right))
+        }
+    }
+}
+
+extension RedBlackTree {
+    
+    func balance(_ color:Color,
+                 _ left:RedBlackTree,
+                 _ value:Element,
+                 _ right:RedBlackTree) -> RedBlackTree {
+        return left // Stub
+    }
+}
+
 
 let emptyTree : RedBlackTree<Int> = .empty
 print(emptyTree)
