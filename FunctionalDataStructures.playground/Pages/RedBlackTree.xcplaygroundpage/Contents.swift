@@ -64,7 +64,7 @@ extension RedBlackTree {
     
     func insert(_ elem : Element) -> RedBlackTree {
         let newTree = ins(elem: elem, in: self)
-        
+    
         switch newTree {
         case .empty: return newTree
         case let .node(_ , left, x, right):
@@ -91,12 +91,51 @@ extension RedBlackTree {
                  _ left:RedBlackTree,
                  _ value:Element,
                  _ right:RedBlackTree) -> RedBlackTree {
-        return left // Stub
+        switch (color, value, left, right) {
+        case let (.black, z, .node(.red, .node(.red, a, x, b), y, c), d):
+             return .node(.red, .node(.black, a, x, b), y, .node(.black, c, z, d))
+        case let (.black, z, .node(.red, a, x , .node(.red, b, y, c)), d):
+             return .node(.red, .node(.black, a, x, b), y, .node(.black, c, z, d))
+        case let (.black, x, a, .node(.red, .node(.red, b, y, c), z, d)):
+             return .node(.red, .node(.black, a, x, b), y, .node(.black, c, z, d))
+        case let (.black, x, a, .node(.red, b, y, .node(.red, c, z, d))):
+            return .node(.red, .node(.black, a, x, b), y, .node(.black, c, z, d))
+        default:
+            return .node(color, left, value, right)
+        }
+
+    }
+}
+
+extension RedBlackTree {
+    func min() -> Element? {
+        switch self {
+        case .empty: return nil
+        case let .node(_, left, value, _):
+            return left.min() ?? value
+        }
+    }
+}
+
+extension RedBlackTree {
+    
+    init(from list:[Element]) {
+        
+        if list.isEmpty {
+            self = .empty
+        } else {
+            self = list.reduce(.empty, { result, item in
+                return result.insert(item)
+            })
+        }
     }
 }
 
 
-let emptyTree : RedBlackTree<Int> = .empty
-print(emptyTree)
+
+let list = Array(1...20)
+var newSet = RedBlackTree<Int>.init(from:list)
+print(newSet)
+
 
 //: [Next](@next)
