@@ -3,5 +3,9 @@
     <pages>
         <page name='Introduction'/>
         <page name='LeftistHeap'/>
+        <page name='BinomialHeap'/>
+        <page name='RedBlackTree'/>
+        <page name='Queues'/>
+        <page name='SplayTree'/>
     </pages>
 </playground>
