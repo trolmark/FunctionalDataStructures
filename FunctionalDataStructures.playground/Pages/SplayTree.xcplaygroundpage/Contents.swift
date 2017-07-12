@@ -17,6 +17,10 @@ extension SplayTree: CustomStringConvertible {
             return root + "\n"
         case let .node(.empty,value, .empty):
             return root + "\(value)\n"
+        
+        case let .node(.empty, value, right):
+            return right.diagram(top + "    ", top + "┌───", top + "│   ")
+                + root + "\(value)\n"
             
         case let .node(left, value, .empty):
             return root + "\(value)\n"
@@ -146,7 +150,7 @@ extension SplayTree {
     }
 }
 
-let list = [11, 1, 2, 3, 4, 5 ]
+let list = [7,6,5,3,2,1,4]
 var splayHeap = SplayTree<Int>.init(from:list)
 print(splayHeap)
 
