@@ -54,7 +54,7 @@ print(queue
     .snoc(elem: 2)
     .snoc(elem: 7)
     .tail()
-    .head())
+    .head()!)
 
 
 //: [Next](@next)
