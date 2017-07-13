@@ -6,5 +6,6 @@
         <page name='RedBlackTree'/>
         <page name='Queue'/>
         <page name='SplayTree'/>
+        <page name='PairingHeap'/>
     </pages>
 </playground>
