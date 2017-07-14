@@ -40,14 +40,6 @@ struct BatchedQueue<Elem> : Queue {
     }
 }
 
-let queue = BatchedQueue<Int>()
-print(queue
-    .snoc(elem: 1)
-    .snoc(elem: 2)
-    .snoc(elem: 7)
-    .tail()
-    .head()!)
-
 
 
 struct LazyQueue<Elem> : Queue {
@@ -65,17 +57,37 @@ struct LazyQueue<Elem> : Queue {
     }
     
     func head() -> Elem? {
-        return nil
+        return f.first
     }
     
     func tail() -> LazyQueue<Elem> {
-        return self
+        let newF = Array(f.dropFirst())
+        return check(lenF: lenF - 1, fStream: newF, lenR: lenR, rStream: r)
     }
     
     func snoc(elem: Elem) -> LazyQueue<Elem> {
-        return self
+        let newR =  [elem] + r
+        return check(lenF: lenF, fStream: f, lenR: lenR + 1, rStream: newR)
     }
     
+    func check(lenF:Int, fStream:[Elem],lenR:Int, rStream:[Elem]) -> LazyQueue<Elem> {
+        if lenR <= lenF {
+            return LazyQueue(f: fStream,
+                             r: rStream, lenF: lenF, lenR: lenR)
+        } else {
+            return LazyQueue(f: fStream + rStream.reversed(),
+                             r: [], lenF: lenF + lenR, lenR: 0)
+        }
+    }
 }
+
+
+let queue = BatchedQueue<Int>()
+print(queue
+    .snoc(elem: 1)
+    .snoc(elem: 2)
+    .snoc(elem: 7)
+    .tail()
+    .head()!)
 
 //: [Next](@next)
