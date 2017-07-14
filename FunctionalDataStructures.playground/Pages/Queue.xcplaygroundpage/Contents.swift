@@ -49,4 +49,33 @@ print(queue
     .head()!)
 
 
+
+struct LazyQueue<Elem> : Queue {
+    
+    fileprivate var f : [Elem] = []
+    fileprivate var r : [Elem] = []
+    fileprivate var lenF : Int = 0
+    fileprivate var lenR : Int = 0
+    
+    
+    typealias Element = Elem
+    
+    func isEmpty() -> Bool {
+        return (lenF == 0)
+    }
+    
+    func head() -> Elem? {
+        return nil
+    }
+    
+    func tail() -> LazyQueue<Elem> {
+        return self
+    }
+    
+    func snoc(elem: Elem) -> LazyQueue<Elem> {
+        return self
+    }
+    
+}
+
 //: [Next](@next)
