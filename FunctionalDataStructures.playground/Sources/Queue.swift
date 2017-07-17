@@ -8,3 +8,9 @@ public protocol Queue {
     func head() -> Element?
     func tail() -> Self
 }
+
+public protocol Deque : Queue {
+    func cons(elem:Element) -> Self
+    func last() -> Element?
+    func dropLast() -> Self
+}
