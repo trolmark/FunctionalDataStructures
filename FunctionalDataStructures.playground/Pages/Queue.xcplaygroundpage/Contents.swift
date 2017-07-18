@@ -47,13 +47,13 @@ private extension BatchedQueue {
 
 struct LazyQueue<Elem> : Queue {
     
-    fileprivate var f : [Elem] = []
-    fileprivate var r : [Elem] = []
-    fileprivate var lenF : Int = 0
-    fileprivate var lenR : Int = 0
+    var f : [Elem] = []
+    var r : [Elem] = []
+    var lenF : Int = 0
+    var lenR : Int = 0
     
     
-    typealias Element = Elem
+    public typealias Element = Elem
     
     func isEmpty() -> Bool {
         return (lenF == 0)

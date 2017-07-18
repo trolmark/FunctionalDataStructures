@@ -22,3 +22,25 @@ public protocol Deque : Queue {
     // Get and remove last element
     func dropLast() -> Self
 }
+
+public struct QueueBase<Elem> {
+    
+    public var f : [Elem] = []
+    public var r : [Elem] = []
+    public var lenF : Int = 0
+    public var lenR : Int = 0
+    
+    public init() {
+        self.f = []
+        self.r = []
+        self.lenR = 0
+        self.lenF = 0
+    }
+    
+    public init(f:[Elem], r:[Elem], lenF:Int, lenR:Int) {
+        self.f = f
+        self.r = r
+        self.lenF = lenF
+        self.lenR = lenR
+    }
+}
