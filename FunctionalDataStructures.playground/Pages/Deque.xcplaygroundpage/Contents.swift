@@ -44,15 +44,29 @@ extension BankersDeque : Deque {
     }
     
     func cons(elem:Element) -> BankersDeque<Elem> {
-        return self
+        let newF =  [elem] + queue.f
+        let newQueue = QueueBase(f: newF, r: queue.r, lenF: queue.lenF + 1, lenR: queue.lenR)
+        return check(queue: newQueue, c: c)
     }
     
     func last() -> Element? {
-        return queue.r.last
+        if isEmpty() { return nil }
+        else if queue.lenR == 0 && queue.lenF != 0 {
+            return queue.f.first
+        } else {
+            return queue.r.first
+        }
     }
     
     func dropLast() -> BankersDeque<Elem> {
-        return self
+        if isEmpty() { return self }
+        else if queue.lenR == 0 && queue.lenF != 0 {
+            return BankersDeque(queue: self.queue, c: c)
+        } else {
+            let newR = Array(queue.r.dropFirst())
+            let newQueue = QueueBase(f: queue.f, r: newR, lenF: queue.lenF, lenR: queue.lenR - 1)
+            return check(queue: newQueue, c: c)
+        }
     }
 }
 

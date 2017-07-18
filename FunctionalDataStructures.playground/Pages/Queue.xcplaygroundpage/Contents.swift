@@ -53,7 +53,7 @@ struct LazyQueue<Elem> : Queue {
     var lenR : Int = 0
     
     
-    public typealias Element = Elem
+    typealias Element = Elem
     
     func isEmpty() -> Bool {
         return (lenF == 0)
