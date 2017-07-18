@@ -26,9 +26,12 @@ struct BatchedQueue<Elem> : Queue {
         let newR =  [elem] + r
         return checkF(f: f, r: newR)
     }
+}
+
+private extension BatchedQueue {
     
-    /* Elements are added to r and removed from f , so they must somehow migrate from 
-     one list to the other. This is accomplished by reversing R and installing the result 
+    /* Elements are added to r and removed from f , so they must somehow migrate from
+     one list to the other. This is accomplished by reversing R and installing the result
      as the new F whenever F would otherwise become empty, simultaneously setting the new R to [ ] */
     
     func checkF(f:[Elem], r:[Elem]) -> BatchedQueue<Elem> {
@@ -69,6 +72,9 @@ struct LazyQueue<Elem> : Queue {
         let newR =  [elem] + r
         return check(lenF: lenF, fStream: f, lenR: lenR + 1, rStream: newR)
     }
+}
+
+private extension LazyQueue {
     
     func check(lenF:Int, fStream:[Elem],lenR:Int, rStream:[Elem]) -> LazyQueue<Elem> {
         if lenR <= lenF {
