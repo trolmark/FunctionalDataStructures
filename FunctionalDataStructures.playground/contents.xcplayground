@@ -8,5 +8,6 @@
         <page name='SplayTree'/>
         <page name='PairingHeap'/>
         <page name='Deque'/>
+        <page name='CatenableList'/>
     </pages>
 </playground>

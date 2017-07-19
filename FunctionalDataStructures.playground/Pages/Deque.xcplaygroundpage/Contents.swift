@@ -73,9 +73,11 @@ extension BankersDeque : Deque {
 private extension BankersDeque {
     
     func check(queue:QueueBase<Elem>, c:Int) -> BankersDeque<Elem> {
+        
+        let i : Int = (queue.lenF + queue.lenR)/2
+        let j : Int = queue.lenF + queue.lenR - i
+        
         if queue.lenF > c*queue.lenR + 1 {
-            let i : Int = (queue.lenF + queue.lenR)/2
-            let j : Int = queue.lenF + queue.lenR - i
             let newF = Array(queue.f.prefix(upTo: i))
             let newR = queue.r + Array(queue.f.dropFirst(i)).reversed()
             let newQueue = QueueBase(f: newF, r: newR, lenF: i, lenR: j)
@@ -83,9 +85,7 @@ private extension BankersDeque {
             return BankersDeque(queue: newQueue, c: c)
             
         } else if queue.lenR > c*queue.lenF + 1 {
-            
-            let i : Int = (queue.lenF + queue.lenR)/2
-            let j : Int = queue.lenF + queue.lenR - i
+
             let newR = Array(queue.r.prefix(upTo: i))
             let newF = queue.f + Array(queue.r.dropFirst(i)).reversed()
             let newQueue = QueueBase(f: newF, r: newR, lenF: i, lenR: j)
