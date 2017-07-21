@@ -9,6 +9,6 @@
         <page name='PairingHeap'/>
         <page name='Deque'/>
         <page name='CatenableList'/>
-        <page name='Trie(Digital Search Tree)'/>
+        <page name='Trie(Digital_Search_Tree)'/>
     </pages>
 </playground>

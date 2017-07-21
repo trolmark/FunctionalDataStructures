@@ -145,7 +145,7 @@ let list = CatenableList<Int>()
 print(list.snoc(elem: 6)
     .snoc(elem: 4)
     .snoc(elem: 3)
-    .head())
+    .head()!)
 
 
 
