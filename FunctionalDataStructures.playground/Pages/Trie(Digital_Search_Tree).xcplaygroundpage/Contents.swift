@@ -28,14 +28,38 @@ extension ArraySlice {
     }
 }
 
+extension Trie : CustomStringConvertible {
+    
+    var description : String {
+        return ""
+    }
+}
+
 extension Trie {
     
-    func lookup(key:ArraySlice<Element>) -> Bool {
+    func lookup(key:ArraySlice<Element>) -> Trie<Element>? {
         guard let (head, tail) = key.decomposed
-        else { return isElement }
+        else { return self }
+    
+        guard let subtrie = children[head]
+        else { return nil }
         
-        guard let subtrie = children[head] else { return false }
         return subtrie.lookup(key: tail)
+    }
+    
+    func complete(key:ArraySlice<Element>) -> [Element] {
+        return lookup(key: key)?.elements ?? []
+    }
+}
+
+extension Trie {
+    
+    var elements : [Element] {
+        var result : [Element] = []
+        for (key, value) in children {
+            result += [key] + value.elements
+        }
+        return result
     }
 }
 
@@ -66,6 +90,32 @@ extension Trie {
         return Trie(isElement: isElement, children: newChildred)
     }
 }
+
+extension Trie {
+    
+    static func build(words:[String]) -> Trie<Character> {
+        let emptyTrie = Trie<Character>()
+        let wordTrie:Trie<Character> = words.reduce(emptyTrie) { trie, word in
+            trie.inserting(Array(word.characters).slice)
+        }
+        return wordTrie
+    }
+}
+
+extension String {
+    
+    func complete(words:Trie<Character>) -> [String] {
+        let charsOwn = Array(characters).slice
+        let completed = words.complete(key: charsOwn)
+        return completed.map { chars in
+            self + String(chars)
+        }
+    }
+}
+
+let contents = ["cat", "car", "cart", "dog"]
+let trieOfWords = Trie<Character>.build(words: contents)
+print("ca".complete(words:trieOfWords))
 
 
 //: [Next](@next)
